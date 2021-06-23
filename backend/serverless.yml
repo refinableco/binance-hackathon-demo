@@ -1,0 +1,72 @@
+service: binance-hackathon
+app: binance-hackathon
+
+# Use the serverless-webpack plugin to transpile ES6
+plugins:
+  - serverless-offline
+  - serverless-domain-manager
+  - serverless-dotenv-plugin
+  - serverless-plugin-typescript
+
+custom:
+  stage: dev
+  serverless-offline:
+    host: 0.0.0.0
+    port: 3333
+
+package:
+  excludeDevDependencies: false
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-central-1
+  environment:
+    MONGODB_URI: http://localhost:27017
+
+functions:
+  getAll:
+    handler: src/controller/metadata.getAll
+    events:
+      - http:
+          path: /metadata
+          method: get
+  getByTokenId:
+    handler: src/controller/metadata.getByTokenId
+    events:
+      - http:
+          path: /metadata/{tokenId}
+          method: post
+  create:
+    handler: src/controller/metadata.create
+    events:
+      - http:
+          path: /metadata
+          method: post
+
+
+resources:
+  Resources:
+    GatewayResponse:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+        ResponseType: EXPIRED_TOKEN
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+        StatusCode: '401'
+    AuthFailureGatewayResponse:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+        ResponseType: UNAUTHORIZED
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+        StatusCode: '401'
+

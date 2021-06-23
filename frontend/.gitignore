@@ -1,0 +1,12 @@
+../node_modules
+dist
+yarn-error.log
+.eslintcache
+ganache_data
+.idea
+ganache_data
+lib
+build
+lib
+.env
+**/*.tsbuildinfo
