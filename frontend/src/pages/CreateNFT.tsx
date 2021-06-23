@@ -51,7 +51,7 @@ export const CreateNFT = () => {
 
     function generateNfts () {
         let generatedItems = [];
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 8; i++) {
             generatedItems.push({
                 chromosomeX: Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1) + MIN_VALUE),
                 chromosomeY: Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1) + MIN_VALUE)

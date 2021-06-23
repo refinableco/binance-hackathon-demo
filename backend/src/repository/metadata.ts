@@ -1,5 +1,7 @@
 import { rehydrateOrCreateDB } from "./connection"
 const erc721_metadata = 'erc721_metadata';
+const MAX_VALUE = 10000000;
+const MIN_VALUE = 100;
 
 export const findByTokenId = async (tokenId: string) => {
     const db = await rehydrateOrCreateDB();
@@ -8,9 +10,7 @@ export const findByTokenId = async (tokenId: string) => {
 
 
 export const getLastTokenId = async () => {
-    const db = await rehydrateOrCreateDB();
-    const count = await db.collection(erc721_metadata).count();
-    return count + 1;
+    return Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1) + MIN_VALUE)
 };
 
 export const getAll = async () => {
