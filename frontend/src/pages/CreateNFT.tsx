@@ -63,9 +63,13 @@ export const CreateNFT = () => {
 
     const onFinish = async (values: any) => {
 
+        const nft = { ...values, createdBy: wallet.account }
+        if (selectedItem){
+            nft.image = (selectedItem?.chromosomeX + selectedItem?.chromosomeY) + ''
+        }
         const createResponse = await fetch('http://localhost:3333/metadata', {
             method: 'post',
-            body: JSON.stringify({ ...values, createdBy: wallet.account, ...selectedItem })
+            body: JSON.stringify(nft)
         })
 
         let tokenId;
@@ -75,6 +79,8 @@ export const CreateNFT = () => {
         }
 
         const provider = new ethers.providers.Web3Provider(web3React.library);
+
+        // CONTRACT DEFINITION
         const erc721TokenContract = new ethers.Contract(
             ENV.TOKEN721_ADDRESS,
             refinableERC721TokenABI as any,

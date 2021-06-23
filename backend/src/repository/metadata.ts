@@ -8,7 +8,6 @@ export const findByTokenId = async (tokenId: string) => {
     return db.collection(erc721_metadata).findOne({ tokenId });
 };
 
-
 export const getLastTokenId = async () => {
     return Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1) + MIN_VALUE)
 };

@@ -9,7 +9,7 @@ interface Props {
 export const OverviewItem: FC<Props> = ({ item }) => {
     return (
         <div className="overview-item">
-            <NFTImage data={item?.chromosomeX + item?.chromosomeY + ''} />
+            <NFTImage data={item?.image} />
             <div className="overview-item--info">
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>
